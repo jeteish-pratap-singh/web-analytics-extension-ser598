@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+}
+
+.main {
+    background: palegoldenrod;
+    width: 200px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
