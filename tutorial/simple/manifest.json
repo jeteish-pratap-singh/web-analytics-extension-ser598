@@ -1,10 +1,17 @@
 {
   "name": "Simple Extension",
-  "description": "SER598 - Advanced Project - Simple",
+  "description": "SER598 - Advanced Project",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "simple.html",
+    "default_popup": "popup/main.html",
     "default_icon": "fork.png"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.asu.edu/"],
+      "css": ["content/main.css"],
+      "js": ["content/main.js"]
+    }
+  ]
 }
