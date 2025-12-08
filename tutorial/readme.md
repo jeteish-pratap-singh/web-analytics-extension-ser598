@@ -1,3 +1,7 @@
 # Simple Extension Tutorial
 
-Showcases manifest, simple popup view and embedded chrome environment
+Showcases - 
+1. Manifest.json
+2. Popup scripts
+3. Content Scripts
+4. Service Workers and Storage
