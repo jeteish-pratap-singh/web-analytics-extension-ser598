@@ -13,5 +13,9 @@
       "css": ["content/main.css"],
       "js": ["content/main.js"]
     }
-  ]
+  ],
+  "permissions": ["contextMenus", "storage"],
+  "background": {
+    "service_worker": "service.js"
+  }
 }
