@@ -1,0 +1,10 @@
+{
+  "name": "Simple Extension",
+  "description": "SER598 - Advanced Project - Simple",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "simple.html",
+    "default_icon": "fork.png"
+  }
+}
