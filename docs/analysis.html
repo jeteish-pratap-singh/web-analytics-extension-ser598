@@ -30,79 +30,107 @@
 
         <main>
             <section class="card">
-                <h2>History & Standards</h2>
-                <p>Browser Extensions have evolved significantly since their inception. The most recent and
-                    controversial shift is the move from <strong>Manifest V2</strong> to <strong>Manifest V3
-                        (MV3)</strong>.</p>
-                <ul>
-                    <li><strong>Standards Organization:</strong> W3C (World Wide Web Consortium) via the WebExtensions
-                        Community Group.</li>
-                    <li><strong>The Shift:</strong> MV3 replaces persistent "Background Pages" with ephemeral
-                        <strong>Service Workers</strong>. This improves browser performance (less memory usage) but
-                        complicates long-running tasks.
-                    </li>
-                    <li><strong>Privacy Control:</strong> MV3 limits the blocking capabilities of extensions (affecting
-                        ad blockers) by introducing <code>declarativeNetRequest</code>, though <code>webRequest</code>
-                        remains available for observability (as used in our project).</li>
-                </ul>
+                <h2>1. The "Wild West" of History</h2>
+                <p>
+                    Let's be honest: building extensions used to be a <strong>total nightmare</strong>.
+                    Back in the day, if you wanted to build for Internet Explorer, you wrote C++ (ActiveX).
+                    For Firefox? You learned XUL and XPCOM (weird XML stuff).
+                    And for Chrome? Something else entirely.
+                </p>
+                <p>
+                    It was impossible to reuse code. You were basically building three different apps.
+                </p>
+                <p>
+                    <strong>Enter WebExtensions.</strong> Finally, the browser vendors (Apple, Google, Mozilla, MS) got
+                    together and agreed:
+                    <em>"Let's just use HTML, JavaScript, and CSS."</em> Now, you write code once, and it (mostly) works
+                    everywhere.
+                    It’s the sanity check the web desperately needed.
+                </p>
             </section>
 
             <section class="card">
-                <h2>Analytical Component: Utility of Browser Observability</h2>
-                <p><strong>Our Opinion:</strong> We believe that browser-based observability tools are essential for the
-                    modern web (Web 3.0 era) where privacy is often opaque.</p>
+                <h2>2. The API: Callbacks vs Promises</h2>
+                <p>Here is one thing that might drive you crazy. Even though there is a "standard," Chrome and Firefox
+                    still bicker about how to handle async code.</p>
+
+                <div class="code-block">
+                    <h3>Chrome's "Old School" Style</h3>
+                    <p>Chrome loves <strong>Callbacks</strong>. It looks like this:</p>
+                    <pre><code>chrome.storage.local.get(['key'], function(result) {
+  // We are stuck inside this function now...
+  console.log('Value is ' + result.key);
+});</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <h3>The Modern (Standard) Style</h3>
+                    <p>Firefox (and the strict standard) uses <strong>Promises</strong>. It's much cleaner:</p>
+                    <pre><code>// Look how nice this is! Async/Await.
+const result = await browser.storage.local.get(['key']);
+console.log('Value is ' + result.key);</code></pre>
+                </div>
+                <p><em><strong>Pro Tip:</strong> Don't suffer. Use a library called <code>webextension-polyfill</code>
+                        to force Chrome to behave like a modern browser.</em></p>
+            </section>
+
+            <section class="card">
+                <h2>3. Manifest V2 vs V3 (The Big Drama)</h2>
+                <p>If you read Reddit, you know people have <em>feelings</em> about Manifest V3. Here is what's actually
+                    changing.</p>
+
+                <h3>A. Service Workers: The "Serverless" Browser</h3>
+                <p>
+                    In V2, the background script was like a server that was <strong>always running</strong>. It sat in
+                    the background, eating up your RAM, even if it was doing nothing.
+                </p>
+                <p>
+                    <strong>V3 changes this.</strong> It uses <strong>Service Workers</strong>. Think of them like AWS
+                    Lambda (Serverless functions).
+                    They wake up when an event happens (like a click), do their job, and then <strong>die</strong> after
+                    30 seconds.
+                    <br><br>
+                    <strong>Result:</strong> Your browser uses way less memory. <br>
+                    <strong>The Catch:</strong> You can't use global variables anymore because they get wiped when the
+                    worker dies. You have to save <em>everything</em> to storage.
+                </p>
+
+                <h3>B. The AdBlock Controversy</h3>
+                <p>This is where things get spicy.</p>
 
                 <div class="feature-grid">
                     <div>
-                        <h3>Pros (Utility)</h3>
-                        <ul>
-                            <li><strong>Transparency:</strong> Users can see exactly what data is leaving their browser.
-                            </li>
-                            <li><strong>Education:</strong> Helps developers understand HTTP headers, caching, and
-                                latency.</li>
-                            <li><strong>Lightweight:</strong> No need for external proxies like Wireshark or Charles
-                                Proxy.</li>
-                        </ul>
+                        <h4>The Old Way (MV2)</h4>
+                        <p>Extensions could say: <em>"Hey Browser, pause this request while I run some JavaScript to
+                                decide if I like it."</em></p>
+                        <p class="warning"><strong>Risk:</strong> Slows down the web, and the extension sees EVERY URL
+                            you visit.</p>
                     </div>
                     <div>
-                        <h3>Cons & Challenges</h3>
-                        <ul>
-                            <li><strong>Performance Overhead:</strong> Intercepting every request can slow down browsing
-                                if not optimized.</li>
-                            <li><strong>MV3 Limitations:</strong> Service workers die after 30 seconds of inactivity,
-                                making state management (like counting total requests) harder without persistent
-                                storage.</li>
-                        </ul>
+                        <h4>The New Way (MV3)</h4>
+                        <p>The Extension says: <em>"Here is a list of 50,000 rules (blocks). You apply them. I don't
+                                need to know what happens."</em></p>
+                        <p class="success"><strong>Privacy:</strong> Much better. But ad blockers lose some power
+                            because they can't run complex logic on the fly.</p>
                     </div>
                 </div>
             </section>
 
             <section class="card">
-                <h2>References & Resources</h2>
-                <h3>References</h3>
+                <h2>4. Security: No More Remote Code</h2>
+                <p>
+                    Google got tired of extensions executing malicious code downloaded from the internet.
+                    So in V3, <strong>Remote Hosted Code is BANNED.</strong>
+                </p>
                 <ul>
-                    <li><a href="https://developer.chrome.com/docs/extensions/mv3/" target="_blank">Chrome Extensions
-                            Documentation (Manifest V3)</a></li>
-                    <li><a href="https://vuejs.org/guide/introduction.html" target="_blank">Vue.js 3 Documentation</a>
-                    </li>
-                    <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions"
-                            target="_blank">MDN Web Docs: Browser Extensions</a></li>
-                    <li><a href="https://www.eff.org/" target="_blank">Electronic Frontier Foundation (Privacy &
-                            Tracking)</a></li>
-                    <li><a href="https://w3c.github.io/webextensions/" target="_blank">W3C WebExtensions Community
-                            Group</a></li>
+                    <li>Want to load jQuery from a CDN? <strong>Nope.</strong></li>
+                    <li>Want to download a script from your server? <strong>Denied.</strong></li>
                 </ul>
-
-                <h3>Additional Resources</h3>
-                <ul>
-                    <li><a href="https://vitejs.dev/" target="_blank">Vite Build Tool</a></li>
-                    <li><a href="https://github.com/GoogleChrome/chrome-extensions-samples" target="_blank">Google
-                            Chrome Extension Samples (GitHub)</a></li>
-                    <li><a href="https://web.dev/service-workers-cache-storage/" target="_blank">Service Workers &
-                            Caching</a></li>
-                    <li><a href="https://css-tricks.com/" target="_blank">CSS-Tricks (Advanced CSS)</a></li>
-                    <li><a href="https://jsonformatter.org/" target="_blank">JSON Formatter (Debug Tools)</a></li>
-                </ul>
+                <p>
+                    You must bundle <strong>every single line of code</strong> inside your extension package.
+                    This way, when the Chrome Web Store reviews your extension, they know <em>exactly</em> what it does.
+                    No surprises later.
+                </p>
             </section>
         </main>
 
