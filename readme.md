@@ -1,7 +1,13 @@
-# Web Analytics & Observability Extension
+# SER598 Advanced Project - Group 4 
 
-**SER598 Advanced Project Demo**
+## Write up and Follow Along steps
+Can be found under docs/index.html
 
+## Tutorial
+Step by Step instructions can be found under basic/ and tutorial/ directory
+
+## Demo
+### Web Analytics & Observability Extension
 A Vue 3.0 Chrome Extension that allows users to monitor network traffic in real-time, visualizing requests and detecting trackers.
 
 ## Features
