@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Web Analytics Extension</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html" class="nav-link">Home & Overview</a>
+            <a href="tutorial.html" class="nav-link active">Step-by-Step Tutorial</a>
+            <a href="analysis.html" class="nav-link">Analysis & Review</a>
+        </nav>
+
+        <header>
+            <h1>Step-by-Step Guide</h1>
+            <p>From "Hello World" to a Full-Stack Vue.js Extension.</p>
+        </header>
+
+        <main>
+            <div id="phase-1" class="phase-section">
+                <h2>Phase 1: The Basics (Hello World)</h2>
+                <p>Before diving into modern frameworks, let's understand the core building blocks of a Chrome Extension
+                    by analyzing the code in the <code>tutorial/</code> folder.</p>
+
+                <div class="card">
+                    <h3>1. The Manifest (manifest.json)</h3>
+                    <p>Every extension requires a <code>manifest.json</code>. This file acts as the configuration
+                        blueprint.</p>
+                    <pre><code>{
+  "name": "Simple Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup/main.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.asu.edu/"],
+      "css": ["content/main.css"],
+      "js": ["content/main.js"]
+    }
+  ],
+  "permissions": ["contextMenus", "storage"],
+  "background": {
+    "service_worker": "service.js"
+  }
+}</code></pre>
+                    <p>Key takeaways:</p>
+                    <ul>
+                        <li><strong>manifest_version: 3</strong>: The latest standard for Chrome Extensions.</li>
+                        <li><strong>content_scripts</strong>: Scripts that run <em>inside</em> web pages (like asu.edu).
+                        </li>
+                        <li><strong>background</strong>: The Service Worker that runs independently of any page.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>2. Content Scripts (Injecting Code)</h3>
+                    <p>Content scripts allow you to modify the DOM of a website. In <code>content/main.js</code>, we
+                        inject a button into the Canvas navigation:</p>
+                    <pre><code>// Select the navigation list
+var navlist = document.getElementsByClassName("nav-list")[0];
+
+// Create a new list item
+var element = document.createElement("li");
+element.innerHTML = '&lt;a href="https://canvas.asu.edu"&gt;Open Canvas&lt;/a&gt;';
+
+// Append it to the page
+navlist.appendChild(element);</code></pre>
+                    <p>This runs automatically whenever you visit a URL matching <code>https://*.asu.edu/</code>.</p>
+                </div>
+
+                <div class="card">
+                    <h3>3. Context Menus & Service Workers</h3>
+                    <p>Advanced features often live in the background. In <code>service.js</code>, we create a
+                        right-click menu item:</p>
+                    <pre><code>chrome.runtime.onInstalled.addListener(function () {
+  chrome.contextMenus.create({
+    title: "ASU - SER598",
+    contexts: ["page"],
+    id: "asu",
+  });
+});
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId == "asu") {
+    // Save the bookmark logic here...
+  }
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="phase-2" class="phase-section">
+                <h2>Phase 2: Advanced Web Analytics</h2>
+                <p>Now, let's build a production-grade extension using <strong>Vue.js 3</strong> and the <strong>Web
+                        Request API</strong>.</p>
+
+                <div class="card">
+                    <h3>1. Project Setup (Vite + Vue)</h3>
+                    <p>Unlike the basic extension, we will use a build tool to allow us to use Single File Components
+                        (.vue).</p>
+                    <pre><code>npm create vue@latest
+# Select 'No' for most options (TypeScript optional, we use JS here)
+cd my-extension
+npm install
+npm run build</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>2. The Manifest (Permissions)</h3>
+                    <p>We need powerful permissions to "spy" on network traffic. In <code>manifest.json</code>:</p>
+                    <pre><code>"permissions": [
+  "webRequest", 
+  "tabs", 
+  "activeTab"
+],
+"host_permissions": ["&lt;all_urls&gt;"]</code></pre>
+                    <p><strong>Note:</strong> <code>host_permissions</code> is required for <code>webRequest</code> to
+                        work on any site.</p>
+                </div>
+
+                <div class="card">
+                    <h3>3. Intercepting Requests (background.js)</h3>
+                    <p>The core logic lives in the background. We listen for `onCompleted` events to log successful
+                        requests.</p>
+                    <pre><code>chrome.webRequest.onCompleted.addListener(
+    (details) => {
+        // Create a log object
+        const log = {
+            url: details.url,
+            method: details.method,
+            statusCode: details.statusCode,
+            timeStamp: details.timeStamp
+        };
+
+        // Store it (in memory or storage)
+        // ...
+    },
+    { urls: ["&lt;all_urls&gt;"] }
+);</code></pre>
+                    <p>We also check for trackers. In a real app, you would import a blocklist (like
+                        <code>trackerList.js</code>) and check if <code>details.url</code> matches known ad services.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>4. The Vue UI (App.vue)</h3>
+                    <p>In `App.vue`, we use message passing to ask the background script for data.</p>
+                    <pre><code>// App.vue &lt;script setup&gt;
+import { ref, onMounted } from "vue";
+
+const requests = ref([]);
+
+onMounted(() => {
+  // Ask background for data
+  chrome.runtime.sendMessage({ type: "GET_DATA" }, (response) => {
+     requests.value = response;
+  });
+});</code></pre>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>SER598 Advanced Web Topics • Fall 2025 • Arizona State University</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

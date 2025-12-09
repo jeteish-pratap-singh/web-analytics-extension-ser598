@@ -1,38 +1,40 @@
-# extension
+# Web Analytics & Observability Extension
 
-This template should help get you started developing with Vue 3 in Vite.
+**SER598 Advanced Project Demo**
 
-## Recommended IDE Setup
+A Vue 3.0 Chrome Extension that allows users to monitor network traffic in real-time, visualizing requests and detecting trackers.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
 
-## Recommended Browser Setup
+- **Real-time Monitoring**: Captures HTTP requests for the active tab.
+- **Tracker Detection**: Identifies known tracking domains (e.g., Google Analytics).
+- **Data Visualization**: Shows latency, size, and method for each request.
+- **Vue 3 UI**: Reactive interface built with Vite + Vue 3.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Installation Instructions
 
-## Customize configuration
+1. **Build the Project**:
+    You must build the Vue app first to generate the extension files.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+    ```sh
+    npm install
+    npm run build
+    ```
 
-## Project Setup
+    This will create a `dist/` folder.
 
-```sh
-npm install
-```
+2. **Load into Chrome**:
+    - Open Chrome and navigate to `chrome://extensions`.
+    - Toggle **Developer Mode** (top right corner).
+    - Click **Load Unpacked**.
+    - Select the `dist/` folder inside this project directory.
 
-### Compile and Hot-Reload for Development
+3. **Run the Demo**:
+    - Open a new tab and visit any website (e.g., `cnn.com`).
+    - Click the Extension Icon in the toolbar.
+    - You will see the requests populating in the table.
 
-```sh
-npm run dev
-```
+## Development
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+- `npm run dev`: Hot-reload for UI development (note: may require rebuilding for full extension context).
+- `src/trackerList.js`: Modify this file to add more tracker domains.

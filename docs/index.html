@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Browser Features: Web Analytics</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html" class="nav-link active">Home & Overview</a>
+            <a href="tutorial.html" class="nav-link">Step-by-Step Tutorial</a>
+            <a href="analysis.html" class="nav-link">Analysis & Review</a>
+        </nav>
+
+        <header>
+            <h1>Building Advanced Browser Extensions</h1>
+            <p style="font-size: 1.25rem; opacity: 0.8; max-width: 600px; margin: 0 auto;">
+                A comprehensive guide to Web Observability, Manifest V3, and Vue.js integrations.
+            </p>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>Introduction</h2>
+                <p>
+                    Modern web browsers are powerful operating systems in their own right.
+                    In this tutorial, we will explore <strong>Advanced Browser Features</strong> by building a
+                    specialized tool:
+                    a <em>Web Analytics & Observability Extension</em>.
+                </p>
+                <p>
+                    Rather than just changing colors or blocking ads, we will dive deep into the
+                    <code>chrome.webRequest</code> API to analyze network traffic in real-time,
+                    visualize data using <strong>Vue.js 3</strong>, and understand the privacy implications of the web.
+                </p>
+            </section>
+
+            <section class="card">
+                <h2>Learning Outcomes</h2>
+                <p>By the end of this tutorial, you will be able to:</p>
+                <ul class="learning-outcomes">
+                    <li><strong>Understand</strong> the architecture of Chrome Extensions (Manifest V3) and Service
+                        Workers.</li>
+                    <li><strong>Apply</strong> reactive UI principles using Vue.js to create a dynamic extension popup.
+                    </li>
+                    <li><strong>Analyze</strong> network traffic patterns and identify trackers using the
+                        <code>chrome.webRequest</code> API.</li>
+                    <li><strong>Evaluate</strong> the privacy implications of modern web browsing and the utility of
+                        browser-based observability tools.</li>
+                    <li><strong>Create</strong> a robust cross-platform browser extension from scratch.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Project Roadmap</h2>
+                <div class="feature-grid">
+                    <a href="tutorial.html#phase-1" class="card"
+                        style="display: block; text-decoration: none; color: inherit; border-color: var(--secondary-color);">
+                        <h3 style="color: var(--secondary-color)">Phase 1: The Basics</h3>
+                        <p>Start here with a "Hello World" extension. Learn about Content Scripts, Context Menus, and
+                            Storage.</p>
+                    </a>
+                    <a href="tutorial.html#phase-2" class="card"
+                        style="display: block; text-decoration: none; color: inherit; border-color: var(--primary-color);">
+                        <h3 style="color: var(--primary-color)">Phase 2: Advanced Analytics</h3>
+                        <p>Build the full Vue 3 application. Intercept network requests, detect trackers, and visualize
+                            data.</p>
+                    </a>
+                    <a href="analysis.html" class="card"
+                        style="display: block; text-decoration: none; color: inherit; border-color: var(--accent-color);">
+                        <h3 style="color: var(--accent-color)">Phase 3: Analysis</h3>
+                        <p>A critical look at the technology. History of Extensions, Manifest V3 controversies, and
+                            future directions.</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>SER598 Advanced Web Topics • Fall 2025 • Arizona State University</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>
