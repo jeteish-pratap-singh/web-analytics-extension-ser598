@@ -57,11 +57,11 @@ a {
     transition: all 0.2s;
     border-bottom: 1px dashed transparent;
 }
-
+/*
 a:hover {
     color: var(--accent-color);
     border-bottom-color: var(--accent-color);
-}
+}*/
 
 /* Layout */
 .container {
