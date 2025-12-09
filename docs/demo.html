@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo – Browser Observability Extension</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- NAVIGATION -->
+        <nav>
+            <a href="index.html" class="nav-link">Home & Overview</a>
+            <a href="getting-started.html" class="nav-link">Getting Started</a>
+            <a href="tutorial.html" class="nav-link">Step-by-Step Tutorial</a>
+            <a href="analysis.html" class="nav-link">Analysis & Review</a>
+        </nav>
+
+        <!-- HEADER -->
+        <header>
+            <h1>Project Demo</h1>
+            <p>A complete walkthrough of how the Browser Observability Tool behaves in real usage.</p>
+        </header>
+
+        <main>
+
+            <div class="phase-section">
+                <h2>How to Set Up a Basic Vue Chrome Extension</h2>
+                <p>
+                    This tutorial walks you through building the simplest possible Chrome Extension using
+                    <strong>Vite + Vue</strong>. Each step explains <em>what</em> to do and <em>why</em> you are doing
+                    it,
+                    so even a new student can follow without confusion.
+                </p>
+
+                <!-- STEP 0 -->
+                <div class="card">
+                    <h3>STEP 0 — Create a new folder</h3>
+                    <p><strong>Why this step?</strong> We start by preparing a clean workspace so all files stay
+                        organized.</p>
+                    <pre><code>mkdir vue-extension
+            cd vue-extension</code></pre>
+                    <p>This folder will hold the project source code and the built Chrome Extension.</p>
+                </div>
+
+                <!-- STEP 1 -->
+                <div class="card">
+                    <h3>STEP 1 — Create a fresh Vite + Vue project</h3>
+                    <p><strong>Why this step?</strong> Vite gives us a fast development environment. Vue lets us build
+                        a modern UI for the popup.</p>
+                    <pre><code>npm create vite@latest . -- --template vue
+            npm install</code></pre>
+                    <p>This creates the standard Vue folder structure with <code>src/</code>, <code>index.html</code>,
+                        and Vite configuration.</p>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="card">
+                    <h3>STEP 2 — Create popup.html (root level)</h3>
+                    <p><strong>Why this step?</strong> Chrome Extensions need a physical HTML file for the popup UI.
+                        Vue alone is not enough; Chrome does not load Vite dev pages.</p>
+
+                    <p>Create a new file at the project root:</p>
+                    <pre><code>popup.html</code></pre>
+
+                    <p>Paste this inside:</p>
+                    <pre><code>&lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+              &lt;head&gt;
+                &lt;meta charset="UTF-8" /&gt;
+                &lt;title&gt;Vue Popup&lt;/title&gt;
+              &lt;/head&gt;
+              &lt;body&gt;
+                &lt;div id="app"&gt;&lt;/div&gt;
+                &lt;script type="module" src="./src/popup.js"&gt;&lt;/script&gt;
+              &lt;/body&gt;
+            &lt;/html&gt;</code></pre>
+                    <p>This loads the Vue app inside Chrome’s popup window.</p>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="card">
+                    <h3>STEP 3 — Create popup.js</h3>
+                    <p><strong>Why this step?</strong> Chrome cannot execute <code>.vue</code> files directly.
+                        We need a JavaScript entry point that mounts Vue into the popup.</p>
+
+                    <p>Create:</p>
+                    <pre><code>src/popup.js</code></pre>
+
+                    <p>Paste:</p>
+                    <pre><code>import { createApp } from "vue";
+            import App from "./App.vue";
+            
+            createApp(App).mount("#app");</code></pre>
+
+                    <p>This tells Chrome: "Insert the Vue application into popup.html."</p>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="card">
+                    <h3>STEP 4 — Replace App.vue with a simple counter</h3>
+                    <p><strong>Why this step?</strong> We want the simplest possible test to verify that the Vue app
+                        actually renders inside Chrome’s popup.</p>
+
+                    <p>Open:</p>
+                    <pre><code>src/App.vue</code></pre>
+
+                    <p>Replace all contents with:</p>
+                    <pre><code>&lt;script setup&gt;
+            import { ref } from "vue";
+            const count = ref(0);
+            &lt;/script&gt;
+            
+            &lt;template&gt;
+              &lt;h2&gt;Vue Extension Counter&lt;/h2&gt;
+              &lt;button @click="count++"&gt;Count: {{ count }}&lt;/button&gt;
+            &lt;/template&gt;</code></pre>
+
+                    <p>If the counter works in Chrome, the extension setup is correct.</p>
+                </div>
+
+                <!-- STEP 5 -->
+                <div class="card">
+                    <h3>STEP 5 — Create manifest.json</h3>
+                    <p><strong>Why this step?</strong> Every Chrome Extension needs a manifest to tell Chrome
+                        what files to load and what behavior is allowed.</p>
+
+                    <p>Create this file:</p>
+                    <pre><code>public/manifest.json</code></pre>
+
+                    <p>Paste:</p>
+                    <pre><code>{
+              "manifest_version": 3,
+              "name": "Vue Test Extension",
+              "version": "1.0.0",
+              "action": {
+                "default_popup": "popup.html"
+              }
+            }</code></pre>
+
+                    <p>This tells Chrome: “Use popup.html as the popup UI.”</p>
+                </div>
+
+                <!-- STEP 6 -->
+                <div class="card">
+                    <h3>STEP 6 — Create a working Vite config</h3>
+                    <p><strong>Why this step?</strong> By default, Vite does not build Chrome extension entry points.
+                        We must tell it:
+                        <br>✔ Build popup.html
+                        <br>✔ Build popup.js
+                        <br>✔ Output a clean <code>dist/</code> folder Chrome can load
+                    </p>
+
+                    <p>Edit:</p>
+                    <pre><code>vite.config.js</code></pre>
+
+                    <p>Replace with:</p>
+                    <pre><code>import { defineConfig } from "vite";
+            import vue from "@vitejs/plugin-vue";
+            import { resolve } from "path";
+            
+            export default defineConfig({
+              plugins: [vue()],
+              build: {
+                outDir: "dist",
+                rollupOptions: {
+                  input: {
+                    popup: resolve("popup.html"),
+                  }
+                }
+              }
+            });</code></pre>
+
+                    <p>This ensures <code>popup.html</code> and its scripts are built correctly.</p>
+                </div>
+
+                <!-- STEP 7 -->
+                <div class="card">
+                    <h3>STEP 7 — Build the project</h3>
+                    <p><strong>Why this step?</strong> Chrome cannot interpret Vue or Vite source files.
+                        Everything must be transformed into plain JavaScript inside a <code>dist/</code> folder.</p>
+
+                    <pre><code>npm run build</code></pre>
+
+                    <p>This generates a folder called <code>dist/</code> containing the ready-to-install extension.</p>
+                </div>
+
+                <!-- STEP 8 -->
+                <div class="card">
+                    <h3>STEP 8 — Load the extension into Chrome</h3>
+                    <p><strong>Why this step?</strong> Chrome Extensions must be loaded manually while developing them.
+                    </p>
+
+                    <ol>
+                        <li>Open <code>chrome://extensions</code></li>
+                        <li>Enable <strong>Developer Mode</strong></li>
+                        <li>Click <strong>Load Unpacked</strong></li>
+                        <li>Select your <code>dist/</code> folder</li>
+                    </ol>
+
+                    <p>If you click the extension icon and see the counter working, everything is set up correctly.</p>
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer>
+            <p>SER598 Advanced Web Topics • Demo Page • Arizona State University</p>
+        </footer>
+    </div>
+</body>
+
+</html>

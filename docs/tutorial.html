@@ -101,75 +101,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 });</code></pre>
                 </div>
             </div>
-
-            <div id="phase-2" class="phase-section">
-                <h2>Phase 2: Advanced Web Analytics</h2>
-                <p>Now, let's build a production-grade extension using <strong>Vue.js 3</strong> and the <strong>Web
-                        Request API</strong>.</p>
-
-                <div class="card">
-                    <h3>1. Project Setup (Vite + Vue)</h3>
-                    <p>Unlike the basic extension, we will use a build tool to allow us to use Single File Components
-                        (.vue).</p>
-                    <pre><code>npm create vue@latest
-# Select 'No' for most options (TypeScript optional, we use JS here)
-cd my-extension
-npm install
-npm run build</code></pre>
-                </div>
-
-                <div class="card">
-                    <h3>2. The Manifest (Permissions)</h3>
-                    <p>We need powerful permissions to "spy" on network traffic. In <code>manifest.json</code>:</p>
-                    <pre><code>"permissions": [
-  "webRequest", 
-  "tabs", 
-  "activeTab"
-],
-"host_permissions": ["&lt;all_urls&gt;"]</code></pre>
-                    <p><strong>Note:</strong> <code>host_permissions</code> is required for <code>webRequest</code> to
-                        work on any site.</p>
-                </div>
-
-                <div class="card">
-                    <h3>3. Intercepting Requests (background.js)</h3>
-                    <p>The core logic lives in the background. We listen for `onCompleted` events to log successful
-                        requests.</p>
-                    <pre><code>chrome.webRequest.onCompleted.addListener(
-    (details) => {
-        // Create a log object
-        const log = {
-            url: details.url,
-            method: details.method,
-            statusCode: details.statusCode,
-            timeStamp: details.timeStamp
-        };
-
-        // Store it (in memory or storage)
-        // ...
-    },
-    { urls: ["&lt;all_urls&gt;"] }
-);</code></pre>
-                    <p>We also check for trackers. In a real app, you would import a blocklist (like
-                        <code>trackerList.js</code>) and check if <code>details.url</code> matches known ad services.
-                    </p>
-                </div>
-
-                <div class="card">
-                    <h3>4. The Vue UI (App.vue)</h3>
-                    <p>In `App.vue`, we use message passing to ask the background script for data.</p>
-                    <pre><code>// App.vue &lt;script setup&gt;
-import { ref, onMounted } from "vue";
-
-const requests = ref([]);
-
-onMounted(() => {
-  // Ask background for data
-  chrome.runtime.sendMessage({ type: "GET_DATA" }, (response) => {
-     requests.value = response;
-  });
-});</code></pre>
-                </div>
+            <div class="bottom-cta">
+                <a href="demo.html" class="cta-btn">Wanna Build?</a>
             </div>
         </main>
 
