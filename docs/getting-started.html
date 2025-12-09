@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - Web Analytics Extension</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html" class="nav-link">Home & Overview</a>
+            <a href="getting-started.html" class="nav-link active">Getting Started</a>
+            <a href="tutorial.html" class="nav-link">Step-by-Step Tutorial</a>
+            <a href="analysis.html" class="nav-link">Analysis & Review</a>
+        </nav>
+
+        <header>
+            <h1>Getting Started</h1>
+            <p>Choosing the right tools for the job.</p>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>Prerequisites</h2>
+                <p>Before building modern extensions, ensure you have the following installed:</p>
+                <ul>
+                    <li><strong>Node.js (v14+)</strong>: Required for building Vue applications. Run `node -v` to check.
+                    </li>
+                    <li><strong>Google Chrome</strong> (or Brave/Edge): For testing the extension.</li>
+                    <li><strong>VS Code</strong>: Recommended IDE.</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2>Architecture: Vanilla JS vs. Frameworks</h2>
+                <div class="feature-grid">
+                    <div>
+                        <h3>Vanilla JS (The "Basic" Way)</h3>
+                        <p>Best for simple tools, like a context menu item or a color changer.</p>
+                        <ul>
+                            <li><strong>Pros:</strong> No build step, lightweight, instant changes.</li>
+                            <li><strong>Cons:</strong> Hard to manage state (like a list of network requests).</li>
+                            <li><strong>Example:</strong> checks our `basic/` folder.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Vue.js (The "Modern" Way)</h3>
+                        <p>Best for complex UIs, like our Analytics Dashboard.</p>
+                        <ul>
+                            <li><strong>Pros:</strong> Reactive data (UI updates automatically), components.</li>
+                            <li><strong>Cons:</strong> Requires a build step (`npm run build`).</li>
+                            <li><strong>Example:</strong> The main `web-analytics` project.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Hands On: Build it Yourself</h2>
+                <p>Want to build the "Basic" extension from scratch? Follow these simple steps in your code editor (like
+                    VS Code):</p>
+
+                <p><strong>Step 1:</strong> Create a new folder named <code>my-extension</code>.</p>
+
+                <p><strong>Step 2:</strong> Inside that folder, create a file named <code>manifest.json</code> and paste
+                    this code:</p>
+                <pre><code>{
+  "manifest_version": 3,
+  "name": "My First Extension",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  }
+}</code></pre>
+
+                <p><strong>Step 3:</strong> Create a file named <code>popup.html</code> (The UI) and paste this code:
+                </p>
+                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body style="width: 200px; text-align: center;"&gt;
+  &lt;h3&gt;My First Extension&lt;/h3&gt;
+  &lt;button id="clickMe"&gt;Click Me&lt;/button&gt;
+  &lt;p id="message"&gt;&lt;/p&gt;
+  &lt;script src="popup.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                <p><strong>Step 4:</strong> Create a file named <code>popup.js</code> (The Logic) to make the button
+                    work:</p>
+                <pre><code>document.getElementById('clickMe').addEventListener('click', () => {
+    if (document.getElementById('message').textContent === 'Hello (Created using Vanilla JS)!') {
+        document.getElementById('message').textContent = 'Hello World!';
+    } else {
+        document.getElementById('message').textContent = 'Hello (Created using Vanilla JS)!';
+    }
+});</code></pre>
+
+                <p><strong>Step 5:</strong> That's it! You can now load this folder into Chrome.
+                    Should look like this:</p>
+
+                <div
+                    style="margin-top: 2rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--glass-border);">
+                    <!-- USER: Replace 'assets/demo.mp4' with your actual video file path -->
+                    <video autoplay loop muted playsinline style="width: 100%; display: block; background: #000;">
+                        <source src="assets/demo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p
+                        style="text-align: center; font-size: 0.9em; padding: 10px; background: rgba(0,0,0,0.3); margin: 0;">
+                        <em>Preview: Expected Result</em>
+                    </p>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>4. Try the "Basic" Implementation</h2>
+                <p>We have provided a minimal example in the <code>basic/</code> directory.</p>
+                <ol>
+                    <li>Open Chrome Extensions (<code>chrome://extensions</code>).</li>
+                    <li>Enable <strong>Developer Mode</strong>.</li>
+                    <li>Click <strong>Load Unpacked</strong>.</li>
+                    <li>Select the <code>basic/</code> folder in this project.</li>
+                </ol>
+                <p>Functions: It simply displays a "Hello World" popup. This proves your browser is ready for
+                    development.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>SER598 Advanced Web Topics • Fall 2025 • Arizona State University</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>
