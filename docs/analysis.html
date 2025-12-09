@@ -116,21 +116,48 @@ console.log('Value is ' + result.key);</code></pre>
                 </div>
             </section>
 
+            </section>
+
             <section class="card">
-                <h2>4. Security: No More Remote Code</h2>
-                <p>
-                    Google got tired of extensions executing malicious code downloaded from the internet.
-                    So in V3, <strong>Remote Hosted Code is BANNED.</strong>
-                </p>
-                <ul>
-                    <li>Want to load jQuery from a CDN? <strong>Nope.</strong></li>
-                    <li>Want to download a script from your server? <strong>Denied.</strong></li>
+                <h2>5. References & Resources</h2>
+
+                <h3>References (Evidence)</h3>
+                <ul class="references-list">
+                    <li><a href="https://developer.chrome.com/docs/extensions/mv3/" target="_blank">Google Chrome.
+                            (2024). <em>Manifest V3 Migration Guide.</em> Chrome for Developers.</a> - Evidence for the
+                        architectural shift to Service Workers.</li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions"
+                            target="_blank">MDN Web Docs. (2024). <em>Browser Extensions.</em> Mozilla.</a> - Source for
+                        standard API compatibility and history.</li>
+                    <li><a href="https://www.w3.org/community/webextensions/" target="_blank">W3C. (2024).
+                            <em>WebExtensions Community Group.</em></a> - Evidence for the standardization efforts
+                        between browser vendors.</li>
+                    <li><a href="https://www.eff.org/deeplinks/2021/12/chrome-users-beware-manifest-v3-deceitful-and_threatening"
+                            target="_blank">Electronic Frontier Foundation (EFF). (2021). <em>Chrome Users Beware:
+                                Manifest V3 is Deceitful.</em></a> - Evidence for the "AdBlock Controversy" / Privacy
+                        concerns.</li>
+                    <li><a href="https://vuejs.org/guide/introduction.html" target="_blank">Vue.js. (2024).
+                            <em>Introduction to Vue.js 3.</em></a> - Source for the UI framework used in the tutorial.
+                    </li>
                 </ul>
-                <p>
-                    You must bundle <strong>every single line of code</strong> inside your extension package.
-                    This way, when the Chrome Web Store reviews your extension, they know <em>exactly</em> what it does.
-                    No surprises later.
-                </p>
+
+                <h3>Additional Resources (For Learning)</h3>
+                <ul class="resources-list">
+                    <li><a href="https://github.com/GoogleChrome/chrome-extensions-samples"
+                            target="_blank"><strong>Chrome Extension Samples:</strong></a> Official GitHub repository
+                        with hundreds of code examples.</li>
+                    <li><a href="https://extensionworkshop.com/" target="_blank"><strong>Firefox Extension
+                                Workshop:</strong></a> A great alternative guide that focuses on cross-browser
+                        standards.</li>
+                    <li><a href="https://web.dev/service-workers-cache-storage/" target="_blank"><strong>Service Workers
+                                & Caching:</strong></a> Deep dive into the lifecycle of Service Workers (crucial for
+                        MV3).</li>
+                    <li><a href="https://vitejs.dev/" target="_blank"><strong>Vite.js Documentation:</strong></a> Learn
+                        more about the build tool we used to bundle Vue.</li>
+                    <li><a href="https://developer.chrome.com/docs/extensions/reference/webRequest/"
+                            target="_blank"><strong>chrome.webRequest API:</strong></a> Official docs for the specific
+                        API used in our analytics tool.</li>
+                </ul>
             </section>
         </main>
 
